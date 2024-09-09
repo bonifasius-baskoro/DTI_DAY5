@@ -1,6 +1,7 @@
 package org.example.wordguess;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class WordGuessGame {
     boolean isRight;
 
     public StringBuilder getHiddenWord() {
-        return hiddenWord;
+        return this.hiddenWord;
     }
 
     Random rand = new Random();
@@ -54,15 +55,25 @@ public class WordGuessGame {
 
     }
 
-    public boolean isGuessCorrect(String word, String guess){
-        return word.contains(guess);
+    public boolean isGuessCorrect( String guess){
+        return this.wordToGuess.contains(guess);
     }
 
-    public void updateHiddenWord(String word, String guess){
-        for (int i =0 ; i < word.length(); i++){
-            if (guess.equalsIgnoreCase(word.charAt(i)+"") ){
-
+    public void updateHiddenWord(String wordToGuess, String guess){
+        for (int i =0 ; i < wordToGuess.length(); i++){
+            if (guess.equalsIgnoreCase(wordToGuess.charAt(i)+"") ){
+                this.hiddenWord.setCharAt(i,wordToGuess.charAt(i));
             }
+        }
+    }
+
+    public void displayGameResult() {
+        if(this.wordToGuess.equalsIgnoreCase(this.hiddenWord.toString())){
+            System.out.println("Congratulation you guess the word: "+this.wordToGuess);
+            System.out.println("You clear the game in " + (6-this.attemptsLeft) + " attempts");
+        }
+        else{
+            System.out.println("BOOOOOO you can't guess the word, the word is :" + this.wordToGuess);
         }
     }
 
