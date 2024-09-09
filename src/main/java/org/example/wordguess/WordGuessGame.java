@@ -49,9 +49,9 @@ public class WordGuessGame {
     }
 
     public String getPlayerGuess(){
-        System.out.println("Input your guess:");
-        inputGuess = this.inputUser.nextLine();
-        return this.inputUser.nextLine();
+        System.out.println("Input your guess (1 character):");
+        this.inputGuess = this.inputUser.nextLine();
+        return this.inputGuess;
 
     }
 
@@ -67,6 +67,15 @@ public class WordGuessGame {
         }
     }
 
+    public void updateIsRight(){
+        if(this.wordToGuess.equalsIgnoreCase(this.hiddenWord.toString())){
+            this.isRight = true;
+        }
+        else{
+            this.isRight= false;
+        }
+    }
+
     public void displayGameResult() {
         if(this.wordToGuess.equalsIgnoreCase(this.hiddenWord.toString())){
             System.out.println("Congratulation you guess the word: "+this.wordToGuess);
@@ -77,6 +86,32 @@ public class WordGuessGame {
         }
     }
 
+    public void run(){
+        this.selectRandomWord();
+        System.out.println(wordToGuess);
+        System.out.println("Let's start the game!");
+        this.hide_word(this.wordToGuess);
+        while (!isRight || this.attemptsLeft > 0 ){
+            System.out.println(this.hiddenWord);
+            String guessTry =this.getPlayerGuess();
+            if(isGuessCorrect(guessTry)){
+                this.updateHiddenWord(this.wordToGuess,guessTry);
+                System.out.println("Correct answer");
+                this.attemptsLeft--;
+                System.out.println("attempts left: "+ this.attemptsLeft);
+                this.updateIsRight();
+                continue;
+            }
+            else{
+                System.out.println("Wrong Answer");
+                this.updateIsRight();
+                this.attemptsLeft--;
+            }
+
+        }
+        this.displayGameResult();
+
+    }
     public String getWordToGuess() {
         return wordToGuess;
     }
